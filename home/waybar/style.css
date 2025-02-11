@@ -1,0 +1,67 @@
+@import "/home/alyx/.config/nixos/home/waybar/mocha.css";
+* {
+	font-family: Iosevka NF;
+}
+window#waybar {
+	background-color: @surface0;
+/*	padding: 0px 5px;
+	margin: 5px 10px 5px; */
+	border-radius: 10px;
+}
+#clock,
+#wireplumber,
+#mpd,
+#battery {
+	padding: 5px; 
+	border-radius: 10px;
+	border: 0.2em solid #cba6f7;
+	background: @surface2;
+	min-height: 0;
+	margin: 0.2em;
+}
+#dtray {
+	margin: 0px 10px 0px;
+	padding: 0px 10px 0px;
+}
+#wireplumber.muted {
+	border: 0;
+	color: #888888;
+}
+#mpd.stopped {
+	background-color: @surface0;
+	border: 0;
+}
+#mpd.playing {
+	background: @mauve;
+}
+.mpdcontrol {
+	background-color: @surface0; 
+/*	border-radius: 10px; */
+	font-size: 1.2em;
+}
+
+#custom-playpause {
+	background-color: #e5a6f7; 
+	padding-right: 10px; 
+	padding-left: 5px;
+}
+#custom-prev {
+	background-color: #F7A6E8;
+	padding-right: 7px;
+	padding-left: 6px;
+}
+#custom-next {
+	background-color: #FAA5B7;
+	padding-right: 8px;
+	padding-left: 6px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+#mpdg:hover {
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	background: #e5a6f7; 	
+} 
+#battery.charging {
+	background: @mauve;
+}

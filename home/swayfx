@@ -1,0 +1,12 @@
+"
+blur enable
+corner_radius 10
+# shadows enable - not using this because of flicker
+default_dim_inactive 0.3
+client.focused 000000 cba6f7 000000 cba6f7
+for_window [title=\"Picture-in-Picture\"] dim_inactive 0.0
+for_window [title=\"Picture-in-Picture\"] sticky enable
+client.focused_inactive 000000 440C88 000000 440C88
+client.unfocused 000000 440C88 000000 440C88
+for_window [app_id=\"foot\"] opacity 0.8
+"

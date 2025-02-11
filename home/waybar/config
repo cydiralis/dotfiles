@@ -1,0 +1,85 @@
+[
+  {
+    "layer": "top",
+    "margin-top": 10,
+    "margin-left": 12,
+    "margin-right": 12,
+    "height": 35,
+    "spacing": 5,
+    "position": "top",
+    "modules-center": ["group/mpdg"],
+    "modules-left": ["group/dtray"],
+    "modules-right": ["battery", "battery#bat1", "battery#bat2", "clock", "wireplumber"],
+
+
+    "group/dtray": {
+    	"orientation": "inherit",
+    	"drawer": {
+		"transition-duration": 500,
+		"transition-left-to-right": true
+	},
+    	"modules": ["custom/arrow", "tray"]
+    },
+    "group/mpdg": {
+      "orientation": "inherit",
+      "drawer": {
+        "transition-duration": 500,
+	"children-class": "mpdcontrol",
+	"transition-left-to-right": true
+      },
+      "modules": ["mpd", "custom/playpause", "custom/prev", "custom/next"]
+    },
+    "custom/playpause": {
+      "format": "󰐎",
+      "on-click": "mpc toggle"
+    },
+    "custom/prev": {
+      "format": "󰒮",
+      "on-click": "mpc prev"
+    },
+    "custom/next": {
+      "format": "󰒭",
+      "on-click": "mpc next"
+    },
+    "custom/arrow": {
+    	"format": "  ",
+	"tooltip": false
+    },
+    "tray": {
+      "spacing": 5
+    },
+    "clock": {
+      "format": "{:%I:%M %p}",
+    },
+    "wireplumber": {
+      "on-click": "pavucontrol",
+    },
+    "mpd": {
+      "on-click": "mpc toggle",
+      "format-disconnected": "MPD seems to be down",
+      "format": "{title} - {album} - {artist}",
+      "format-paused": "{title} - {album} - {artist}",
+    },
+    "battery": {
+      "bat": "BAT0",
+      "interval": 5,
+      "format-icons": [" ", " ", " ", " ", " "],
+      "format": "{icon} {capacity}%",
+      "tooltip-format": "BAT0, {power}W"
+    },
+    "battery#bat1": {
+      "bat": "BAT1",
+      "interval": 5,
+      "format-icons": [" ", " ", " ", " ", " "],
+      "format": "{icon} {capacity}%",
+      "tooltip-format": "BAT1, {power}W"
+    },
+    "battery#bat2": {
+      "bat": "BAT2",
+      "interval": 5,
+      "format-icons": [" ", " ", " ", " ", " "],
+      "format": "{icon} {capacity}%",
+      "tooltip-format": "BAT2, {power}W"
+    },
+  }
+]
