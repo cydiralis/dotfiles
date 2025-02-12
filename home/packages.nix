@@ -4,6 +4,7 @@
     clonehero
     libgpod
     blender-hip
+    beatsabermodmanager
     libimobiledevice
     mpc
     strawberry
@@ -15,6 +16,7 @@
     wlr-randr
     grim
     slurp
+    grimblast
     swaynotificationcenter
     udiskie
     gtklock

@@ -39,12 +39,6 @@
     };
   };
   
-  # Bootloader.
-  #boot.bootspec.enable = true;
-  #boot.lanzaboote = {
-  #   enable = true;
-  #   pkiBundle = "/etc/secureboot";
-  # };
   boot.supportedFilesystems = ["exfat" "ntfs" "xfs"];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -53,14 +47,6 @@
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
   ];
-  boot.initrd.luks.devices = {
-    crypted = {
-      device = "/dev/disk/by-partuuid/7401197b-15bf-44ff-a313-dbf51804c096";
-      header = "/dev/disk/by-partuuid/a179df7a-f013-44e8-80bd-f308d68c0537";
-      allowDiscards = true;
-      preLVM = true;
-    };
-  };
 
   programs.virt-manager.enable = true;
   virtualisation = {
@@ -88,16 +74,12 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [mesa.opencl amdvlk libvdpau-va-gl mesa vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
-    extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa driversi686Linux.mesa.opencl];
+    extraPackages = with pkgs; [mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
+    extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa.opencl];
   };
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-
-  environment.variables = { 
-    ROC_ENABLE_PRE_VEGA = "1";
-  };
 
   networking.networkmanager = {
     enable = true;
@@ -221,6 +203,11 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-7.0.410"
+    "dotnet-sdk-6.0.428"
+    "dotnet-runtime-7.0.20"
+  ];
 
   environment.systemPackages = with pkgs; [
     wget

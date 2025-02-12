@@ -51,7 +51,7 @@
       ];
       workspaceLayout = "default";
       keybindings = lib.mkOptionDefault {
-        "Print" = "exec grim -g \"$(slurp)\" ~/Pictures/screenshots/screenshot-`date +%F-%T`.png";
+        "Print" = "exec grimblast copy area";
         "Mod4+d" = "exec foot --title launch --app-id fzf-launcher-foot bash -c 'compgen -c | sort -u | fzf | xargs swaymsg exec --'";
 	"Mod4+f" = "exec foot --title music --app-id mpd-control-foot ncmpcpp";
         "XF86AudioRaiseVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0";
