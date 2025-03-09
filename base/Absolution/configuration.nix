@@ -22,6 +22,7 @@
     firefox.enable = true;
     fish.enable = true;
     steam.enable = true;
+    flashrom.enable = true;
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [xorg.libxcb libao xorg.libX11];
   };
@@ -66,6 +67,8 @@
   systemd.services.lactd.wantedBy = ["multi-user.target"];
   networking.hostName = "Absolution"; # Define your hostname.
 
+  #powerManagement.cpuFreqGovernor = "performance";
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -74,7 +77,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
+    extraPackages = with pkgs; [monado-vulkan-layers mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
     extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa.opencl];
   };
 
@@ -212,10 +215,17 @@
   environment.systemPackages = with pkgs; [
     wget
     neovim
+    cbfstool
     git
     lact
     keepassxc
     pulseaudio
+    winetricks
+    p7zip
+    cabextract
+    unzip
+    wineWowPackages.stable
+    (pkgs.python3.withPackages (ps: with ps; [tkinter]))
   ];
 
   system.stateVersion = "24.11"; # Did you read the comment?

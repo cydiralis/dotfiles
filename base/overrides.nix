@@ -3,9 +3,13 @@
     
     (lutris.override {
        extraPkgs = pkgs: [
-         wine
          gamescope
          antimicrox
+         winetricks
+         cabextract
+         unzip
+         wineWowPackages.stable
+         p7zip
        ];
 
        extraLibraries =  pkgs: [

@@ -39,6 +39,7 @@
     timidity
     transmission_4-qt
     vesktop
+    webcord-vencord
     gamescope
     vlc
     playerctl

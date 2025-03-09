@@ -8,10 +8,30 @@
     "spacing": 5,
     "position": "top",
     "modules-center": ["group/mpdg"],
-    "modules-left": ["group/dtray"],
-    "modules-right": ["battery", "battery#bat1", "battery#bat2", "clock", "wireplumber"],
-
-
+    "modules-left": ["group/dtray", "battery", "battery#bat1", "battery#bat2"],
+    "modules-right": ["clock", "group/audio", "disk", "memory", "cpu"],
+    "memory": {
+    	"format": "  {avail} +   {swapAvail} GiB",
+    },
+    "cava": {
+        "method": "pipewire",
+        "format-icons" : ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
+        "bar_delimiter": 0,
+        "bars": 12,
+        "stereo": false,
+        "hide_on_silence": true,
+        "input_delay": 1,
+        "autosens": 0,
+	"noise_reduction": 0.5,
+        "sensitivity": 13,
+    },
+    "disk": {
+    	"format": "  {free} {path}",
+    },
+    "cpu": {
+    	"format": "  {usage}% {max_frequency}GHz",
+	"states": { "highcpu": 85 },
+    },
     "group/dtray": {
     	"orientation": "inherit",
     	"drawer": {
@@ -19,6 +39,11 @@
 		"transition-left-to-right": true
 	},
     	"modules": ["custom/arrow", "tray"]
+    },
+    "group/audio": {
+        "orientation": "inherit",
+        "modules": ["wireplumber", "cava"],
+	"on-click": "pavucontrol",
     },
     "group/mpdg": {
       "orientation": "inherit",
@@ -53,10 +78,13 @@
     },
     "wireplumber": {
       "on-click": "pavucontrol",
+      "format": "󰓃 {volume}%",
+      "format-muted": "󰓄 {volume}%",
     },
     "mpd": {
       "on-click": "mpc toggle",
       "format-disconnected": "MPD seems to be down",
+      "format-stopped": "Nothing playing!",
       "format": "{title} - {album} - {artist}",
       "format-paused": "{title} - {album} - {artist}",
     },
