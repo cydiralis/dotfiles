@@ -2,6 +2,7 @@
   home.packages = with pkgs; [
     prismlauncher
     clonehero
+    cinny-desktop
     libgpod
     blender-hip
     beatsabermodmanager
@@ -13,6 +14,7 @@
     comma
     openscad
     openutau
+    osu-lazer-bin
     wlr-randr
     grim
     slurp

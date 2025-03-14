@@ -68,6 +68,7 @@
         "XF86Launch1" = "exec nmcli device wifi rescan";
         "Shift_L+Control_L+B" = "exec playerctl position 10-";
         "Shift_L+Control_L+F" = "exec playerctl position 10+";
+        "Mod4+e" = "fullscreen toggle";
       };
       floating.criteria = [
         { app_id = "^fzf-launcher-foot$";}

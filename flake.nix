@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixgl.url = "github:nix-community/nixGL";
+    nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     catppuccin.url = "github:catppuccin/nix";
@@ -12,11 +13,12 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ...}:{
+  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, home-manager, ...}:{
     nixosConfigurations."Absolution" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./base/Absolution
+        nixpkgs-xr.nixosModules.nixpkgs-xr
 	home-manager.nixosModules.home-manager {
 	  #imports = [ inputs.nix-index-database.hmModules.nix-index ];
 	  home-manager.extraSpecialArgs = {

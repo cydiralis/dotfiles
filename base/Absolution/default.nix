@@ -5,6 +5,6 @@
     ../ssh.nix
     ../substituters.nix
     ../fonts.nix
-    ../wivrn.nix
+#    ../monado.nix
   ];
 }

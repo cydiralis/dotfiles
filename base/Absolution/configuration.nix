@@ -27,6 +27,15 @@
     nix-ld.libraries = with pkgs; [xorg.libxcb libao xorg.libX11];
   };
 
+  services.journald.extraConfig = ''
+        SystemMaxUse=2G
+  '';
+
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "both";
+  };
+
   xdg.portal.config.common.default = "*";
   xdg.portal.wlr = {
     enable = true;
@@ -44,10 +53,24 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.loader.efi.efiSysMountPoint = "/boot/";
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init"];
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
   ];
+
+  boot.kernelPatches = [
+    {
+      name = "amdgpu-ignore-ctx-privileges";
+      patch = pkgs.fetchpatch {
+        name = "cap_sys_nice_begone.patch";
+        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+      };
+    }
+  ];
+
 
   programs.virt-manager.enable = true;
   virtualisation = {
@@ -67,7 +90,7 @@
   systemd.services.lactd.wantedBy = ["multi-user.target"];
   networking.hostName = "Absolution"; # Define your hostname.
 
-  #powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = "performance";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
