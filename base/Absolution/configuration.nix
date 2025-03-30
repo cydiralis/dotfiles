@@ -24,7 +24,7 @@
     steam.enable = true;
     flashrom.enable = true;
     nix-ld.enable = true;
-    nix-ld.libraries = with pkgs; [xorg.libxcb libao xorg.libX11];
+    nix-ld.libraries = with pkgs; [xorg.libxcb libao xorg.libX11 libusb1 cargo rustc pkg-config cacert];
   };
 
   services.journald.extraConfig = ''
@@ -60,16 +60,16 @@
     config.boot.kernelPackages.v4l2loopback.out
   ];
 
-  boot.kernelPatches = [
-    {
-      name = "amdgpu-ignore-ctx-privileges";
-      patch = pkgs.fetchpatch {
-        name = "cap_sys_nice_begone.patch";
-        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
-        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
-      };
-    }
-  ];
+#  boot.kernelPatches = [
+#    {
+#      name = "amdgpu-ignore-ctx-privileges";
+#      patch = pkgs.fetchpatch {
+#        name = "cap_sys_nice_begone.patch";
+#        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+#        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+#      };
+#    }
+#  ];
 
 
   programs.virt-manager.enable = true;
@@ -250,6 +250,10 @@
     wineWowPackages.stable
     (pkgs.python3.withPackages (ps: with ps; [tkinter]))
   ];
+
+  environment.sessionVariables = {
+    HYPRLAND_INSTANCE_SIGNATURE = "balls";
+  };
 
   system.stateVersion = "24.11"; # Did you read the comment?
 

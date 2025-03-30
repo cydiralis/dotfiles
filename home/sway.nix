@@ -51,9 +51,9 @@
       ];
       workspaceLayout = "default";
       keybindings = lib.mkOptionDefault {
-        "Print" = "exec grimblast copy area";
-        "Mod4+d" = "exec foot --title launch --app-id fzf-launcher-foot bash -c 'compgen -c | sort -u | fzf | xargs swaymsg exec --'";
-	"Mod4+f" = "exec foot --title music --app-id mpd-control-foot ncmpcpp";
+        "Print" = "exec grimblast copysave area";
+        "Mod4+s" = "exec foot --title launch --app-id fzf-launcher-foot bash -c 'compgen -c | sort -u | fzf | xargs swaymsg exec --'";
+	"Mod4+t" = "exec foot --title music --app-id mpd-control-foot ncmpcpp";
         "XF86AudioRaiseVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0";
         "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
         "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -68,7 +68,7 @@
         "XF86Launch1" = "exec nmcli device wifi rescan";
         "Shift_L+Control_L+B" = "exec playerctl position 10-";
         "Shift_L+Control_L+F" = "exec playerctl position 10+";
-        "Mod4+e" = "fullscreen toggle";
+        "Mod4+f" = "fullscreen toggle";
       };
       floating.criteria = [
         { app_id = "^fzf-launcher-foot$";}
