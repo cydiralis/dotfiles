@@ -5,6 +5,7 @@
     ../ssh.nix
     ../substituters.nix
     ../fonts.nix
+    ../virtualisation/virtualisation.nix
 #    ../monado.nix
   ];
 }

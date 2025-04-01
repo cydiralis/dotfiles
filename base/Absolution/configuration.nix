@@ -55,37 +55,32 @@
   boot.initrd.systemd.enable = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.loader.efi.efiSysMountPoint = "/boot/";
-  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init"];
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init" "pcie_acs_override=downstream,multifunction" "preempt=voluntary"];
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
   ];
 
-#  boot.kernelPatches = [
-#    {
-#      name = "amdgpu-ignore-ctx-privileges";
-#      patch = pkgs.fetchpatch {
-#        name = "cap_sys_nice_begone.patch";
-#        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
-#        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
-#      };
-#    }
-#  ];
+  boot.kernelPatches = [
+    {
+      name = "amdgpu-ignore-ctx-privileges";
+      patch = pkgs.fetchpatch {
+        name = "cap_sys_nice_begone.patch";
+        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+      };
+    }
+     {
+       name = "add-acs-overrides";
+       patch = pkgs.fetchurl {
+         name = "add-acs-overrides.patch";
+         url = "https://raw.githubusercontent.com/some-natalie/fedora-acs-override/main/acs/add-acs-override.patch";
+         sha256 = "f7d5c0236b2ef5465817c094aef4295867c87b1b3cb4e41c53e24b79b2bd22f6";
+       };
+     }
+  ];
 
 
   programs.virt-manager.enable = true;
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      extraConfig = ''
-        user="alyx"
-      '';
-      qemu.ovmf.enable = true;
-      qemu.package = pkgs.qemu_kvm;
-      qemu.runAsRoot = true;
-    };
-    spiceUSBRedirection.enable = true;
-  };
-
   systemd.packages = with pkgs; [lact];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
   networking.hostName = "Absolution"; # Define your hostname.
@@ -100,7 +95,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [monado-vulkan-layers mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
+    extraPackages = with pkgs; [mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
     extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa.opencl];
   };
 
@@ -220,7 +215,7 @@
   users.users.alyx = {
     isNormalUser = true;
     description = "Alyx";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "camera" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "camera" "qemu-libvirtd" "lxd" ];
     packages = with pkgs; [
     ];
   };
@@ -241,6 +236,7 @@
     cbfstool
     git
     lact
+    looking-glass-client
     keepassxc
     pulseaudio
     winetricks
