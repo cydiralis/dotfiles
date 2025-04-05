@@ -6,6 +6,6 @@
     ../substituters.nix
     ../fonts.nix
     ../virtualisation/virtualisation.nix
-#    ../monado.nix
+    ../monado.nix
   ];
 }
