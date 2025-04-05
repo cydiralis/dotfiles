@@ -37,6 +37,9 @@
         "type:pointer" = {
           accel_profile = "flat";
         };
+        "1:1:AT_Translated_Set_2_keyboard" = {
+          xkb_variant = "colemak";
+        };
       };
       bars = [];
       defaultWorkspace = "workspace number 1";

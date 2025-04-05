@@ -5,7 +5,7 @@
     cinny-desktop
     libgpod
     blender-hip
-    beatsabermodmanager
+    bs-manager
     libimobiledevice
     mpc
     strawberry

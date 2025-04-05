@@ -7,8 +7,6 @@
      ./vfio.nix
    ];
 
-  services.virtiofsd.enable = true;
-
   virtualisation = {
     libvirtd = {
       enable = true;
@@ -53,6 +51,7 @@
     devices = [
       "1002:67df"
       "1002:aaf0"
+      "1b21:2142"
     ];
     ignoreMSRs = true;
     disablePCIeASPM = true;

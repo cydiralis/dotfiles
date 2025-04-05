@@ -16,6 +16,11 @@ stdenv.mkDerivation rec {
   hardeningDisable = [ "pic" "format" ];
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
+  patchPhase = ''
+    substituteInPlace kvmfr.c \
+      --replace 'MODULE_IMPORT_NS(DMA_BUF);' 'MODULE_IMPORT_NS("DMA_BUF");'
+  '';
+
   makeFlags = [
     "KVER=${kernel.modDirVersion}"
     "KDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
