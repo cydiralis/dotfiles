@@ -3,34 +3,14 @@
     prismlauncher
     clonehero
     cinny-desktop
-    libgpod
     blender-hip
-    bs-manager
-    libimobiledevice
     mpc
-    strawberry
     kanshi
     emacs
     comma
-    openscad
-    openutau
     osu-lazer-bin
-    wlr-randr
-    grim
-    slurp
-    grimblast
-    swaynotificationcenter
-    udiskie
-    gtklock
-    swaybg
     gzdoom
-    fzf
     openrct2
-    wl-clipboard
-    brightnessctl
-    nemo
-    xfce.ristretto
-    xfce.tumbler
     inkscape
     hyfetch
     fastfetch
@@ -41,11 +21,9 @@
     timidity
     transmission_4-qt
     vesktop
-    webcord-vencord
-    gamescope
     vlc
     playerctl
     firefox
     v4l-utils
-  ] ++ (if !vars.isNixOS then [nixgl.nixGLIntel] else []);
+  ] ++ (if !vars.isDeck then [gamescope libgpod bs-manager libimobiledevice strawberry openscad openutau wlr-randr grim slurp grimblast swaynotificationcenter udiskie gtklock swaybg fzf wl-clipboard brightnessctl nemo xfce.ristretto xfce.tumbler] else []);
 }

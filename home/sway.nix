@@ -1,7 +1,7 @@
-{lib, osConfig, pkgs, inputs, ...}:{
+{lib, osConfig, pkgs, inputs, vars, ...}:{
   wayland.windowManager.sway = {
     package = pkgs.swayfx;
-    enable = true;
+    enable = (!vars.isDeck);
     checkConfig = false; #gles2 renderer error
     extraConfig = import ./swayfx;
     config = {

@@ -5,7 +5,6 @@
     inputs.nixvim.homeManagerModules.default
     inputs.catppuccin.homeManagerModules.catppuccin
     #aux files to make finding specific things easier
-    ./sway.nix
     ./theming.nix
     ./nixvim
     ./packages.nix #general user packages not managed by home-manager but i want to install via hm anyways
@@ -45,32 +44,10 @@
     enable = true;
   };
 
-  xdg.configFile."openxr/1/active_runtime.json".source = "${pkgs.monado}/share/openxr/1/openxr_monado.json";
-
-  xdg.configFile."openvr/openvrpaths.vrpath".text = ''
-  {
-    "config" :
-    [
-      "${config.xdg.dataHome}/Steam/config"
-    ],
-    "external_drivers" : null,
-    "jsonid" : "vrpathreg",
-    "log" :
-    [
-      "${config.xdg.dataHome}/Steam/logs"
-    ],
-    "runtime" :
-    [
-      "${pkgs.opencomposite}/lib/opencomposite"
-    ],
-    "version" : 1
-  }
-'';
-
   services.arrpc.enable = true;
 
   programs.waybar = {
-    enable = true;
+    enable = (!vars.isDeck);
   };
   programs.git = {
     enable = true;
@@ -82,12 +59,6 @@
       user.signingkey = "~/.ssh/id_ed25519.pub";
       init.defaultBranch = "main";
     };
-  };
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
-    configPackages = [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ];
-    config.common.default = "*";
   };
   programs.obs-studio = {
     enable = true;
