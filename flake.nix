@@ -27,6 +27,7 @@
 	    inherit inputs;
 	    vars = {
 	      isNixOS = true;
+              isDeck = false;
 	      class = "desktop";
               user = "alyx"; #cursed way of setting username
 	    };

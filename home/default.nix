@@ -60,6 +60,14 @@
       init.defaultBranch = "main";
     };
   };
+
+  xdg.portal = {
+    enable = (!vars.isDeck);
+    extraPortals = (if !vars.isDeck then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+    configPackages = (if !vars.isDeck then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+    config.common.default = (if !vars.isDeck then "*" else "");
+  };
+
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
