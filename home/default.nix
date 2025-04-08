@@ -7,6 +7,7 @@
     #aux files to make finding specific things easier
     ./theming.nix
     ./nixvim
+    ./sway.nix
     ./packages.nix #general user packages not managed by home-manager but i want to install via hm anyways
   ];
   home = rec {
@@ -60,6 +61,28 @@
       init.defaultBranch = "main";
     };
   };
+
+  xdg.configFile."openxr/1/active_runtime.json".source = "${pkgs.monado}/share/openxr/1/openxr_monado.json";
+
+  xdg.configFile."openvr/openvrpaths.vrpath".text = ''
+    {
+      "config" :
+      [
+        "${config.xdg.dataHome}/Steam/config"
+      ],
+      "external_drivers" : null,
+      "jsonid" : "vrpathreg",
+      "log" :
+      [
+        "${config.xdg.dataHome}/Steam/logs"
+      ],
+      "runtime" :
+      [
+        "${pkgs.opencomposite}/lib/opencomposite"
+      ],
+      "version" : 1
+    }
+  '';
 
   xdg.portal = {
     enable = (!vars.isDeck);

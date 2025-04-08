@@ -13,7 +13,6 @@
   nix.package = pkgs.lix;  
 
   services.udev.extraRules = ''
-    KERNEL=="cpu_dma_latency", GROUP="gamemode"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="07ca", ATTRS{idProduct}=="0551", MODE="0666"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="07ca", ATTRS{idProduct}=="4710", MODE="0666"
   '';
@@ -27,19 +26,6 @@
       capSysNice = false;
       # capSysNice = true;
       # package = unstable.gamescope;
-    };
-    gamemode = {
-      enable = true;
-      settings = {
-        general = {
-          renice = 10;
-        };
-        # gpu = {
-        #   apply_gpu_optimisations = "accept-responsibility";
-        #   gpu_device = 1;
-        #   amd_performance_level = "high";
-        # };
-      };
     };
     steam = {
       enable = true;
@@ -146,7 +132,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
+    extraPackages = with pkgs; [amdvlk mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
     extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa.opencl];
   };
 
@@ -249,151 +235,7 @@
 
   security = {
     rtkit.enable = true;
-    sudo = {
-      extraRules = [
-        {
-          groups = [
-            "gamemode"
-          ];
-          commands = [
-            {
-              command = "${pkgs.gamemode}/bin/gamemoderun";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "${pkgs.gamemode}/libexec/procsysctl";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "${pkgs.gamemode}/libexec/cpugovctl";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "${pkgs.gamemode}/libexec/gpuclockctl";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "^/nix/store/.*/bin/gamemoderun$";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "^/nix/store/.*/libexec/procsysctl$";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "^/nix/store/.*/libexec/cpugovctl$";
-              options = [ "NOPASSWD" ];
-            }
-            {
-              command = "^/nix/store/.*/libexec/gpuclockctl$";
-              options = [ "NOPASSWD" ];
-            }
-          ];
-        }
-      ];
-    };
-    pam = {
-      # Higher resource limits. Used by Lutris/Wine.
-      loginLimits = [
-        { domain = "@gamemode"; item = "nofile"; type = "soft"; value = "1048576"; }
-        { domain = "@gamemode"; item = "nofile"; type = "hard"; value = "1048576"; }
-        { domain = "@gamemode"; type = "-"; item = "rtprio"; value = 98; }
-        { domain = "@gamemode"; type = "-"; item = "memlock"; value = "unlimited"; }
-        { domain = "@gamemode"; type = "-"; item = "nice"; value = -11; }
-      ];
-    };
-    # wrappers = {
-    #   mangohud = {
-    #     owner = "root";
-    #     group = "root";
-    #     source = "${pkgs.mangohud}/bin/mangohud";
-    #     capabilities = "cap_sys_nice+pie";
-    #   };
-    #   mangoapp = {
-    #     owner = "root";
-    #     group = "root";
-    #     source = "${pkgs.mangohud}/bin/mangoapp";
-    #     capabilities = "cap_sys_nice+pie";
-    #   };
-    # };
   };
-
-  security.polkit.extraConfig = ''
-    polkit.addRule(function (action, subject) {
-      if ((action.id == "com.feralinteractive.GameMode.governor-helper" ||
-        action.id == "com.feralinteractive.GameMode.gpu-helper" ||
-        action.id == "com.feralinteractive.GameMode.cpu-helper" ||
-        action.id == "com.feralinteractive.GameMode.procsys-helper") &&
-        subject.isInGroup("gamemode"))
-      {
-        return polkit.Result.YES;
-      }
-    });
-  '';
-
-  environment.etc."polkit-1/actions/com.feralinteractive.GameMode.policy".text = ''
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE policyconfig PUBLIC
- "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
- "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
-<policyconfig>
-
-  <!--
-    Copyright (c) 2017-2019, Feral Interactive
-    All rights reserved.
-  -->
-
-  <vendor>Feral GameMode Activation</vendor>
-  <vendor_url>http://www.feralinteractive.com</vendor_url>
-  
-  <action id="com.feralinteractive.GameMode.governor-helper">
-    <description>Modify the CPU governor</description>
-    <message>Authentication is required to modify the CPU governor</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>no</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">${pkgs.gamemode}/libexec/cpugovctl</annotate>
-  </action>
-
-  <action id="com.feralinteractive.GameMode.gpu-helper">
-    <description>Modify the GPU clock states</description>
-    <message>Authentication is required to modify the GPU clock states</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>no</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">${pkgs.gamemode}/libexec/gpuclockctl</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-
-  <action id="com.feralinteractive.GameMode.cpu-helper">
-    <description>Modify the CPU core states</description>
-    <message>Authentication is required to modify the CPU core states</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>no</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">${pkgs.gamemode}/libexec/cpucorectl</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-
-  <action id="com.feralinteractive.GameMode.procsys-helper">
-    <description>Modify the /proc/sys values</description>
-    <message>Authentication is required to modify the /proc/sys/ values</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>no</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">${pkgs.gamemode}/libexec/procsysctl</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-</policyconfig>
-  '';
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
