@@ -48,7 +48,7 @@
         { command = "udiskie --appindicator -t"; }
         { command = "kanshi"; }
         { command = "swaync"; }
-        { command = "swaybg -m fill -i ~/.config/nixos/assets/FATEINVERSION.png"; }
+        { command = (if !vars.isTough then "swaybg -m fill -i ~/.config/nixos/assets/FATEINVERSION.png" else "swaybg -m fill -i ~/.config/nixos/assets/twinkbook.png"); }
         { command = "kde-indicator"; }
         { command = "blueman-applet"; }
       ];

@@ -3,7 +3,7 @@
     #home-manager modules
     inputs.nix-index-database.hmModules.nix-index
     inputs.nixvim.homeManagerModules.default
-    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.catppuccin.homeModules.catppuccin
     #aux files to make finding specific things easier
     ./theming.nix
     ./nixvim
