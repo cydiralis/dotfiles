@@ -316,6 +316,8 @@
     steamtinkerlaunch
     vulkan-tools
     r2modman
+    index_camera_passthrough
+    wayvr-dashboard
     r2mod_cli
     gamemode
     git

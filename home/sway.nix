@@ -31,6 +31,9 @@
           dwt = "disabled";
           scroll_factor = "0.3";
         };
+        "10429:10507:UGTABLET_UE12_PLUS" = {
+           map_to_output = "HDMI-A-1";
+        };
         "type:keyboard" = {
           xkb_layout = "gb";
         };
