@@ -160,7 +160,7 @@
     enable = true;
     restart = true;
     settings.default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
       user = "greeter";
     };
   };
@@ -210,8 +210,6 @@
   security = {
     rtkit.enable = true;
   };
-
-  services.greetd.settings.default_session.command = lib.mkForce "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;

@@ -29,6 +29,7 @@
 	      isNixOS = true;
               isDeck = false;
               isTough = false;
+              isLaptop = false;
 	      class = "desktop";
               user = "alyx"; #cursed way of setting username
 	    };
@@ -52,6 +53,7 @@
               isNixOS = true;
               isDeck = false;
               isTough = false;
+              isLaptop = true;
               class = "desktop";
               user = "alyx"; #cursed way of setting username
             };
@@ -75,6 +77,7 @@
               isNixOS = true;
               isDeck = false;
               isTough = true;
+              isLaptop = true;
               class = "desktop";
               user = "alyx"; #cursed way of setting username
             };
@@ -100,6 +103,7 @@
               isNixOS = true;
               isDeck = true;
               isTough = false;
+              isLaptop = true;
               class = "desktop";
               user = "alyx"; #cursed way of setting username
             };

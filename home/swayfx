@@ -9,7 +9,4 @@ for_window [title=\"Picture-in-Picture\"] sticky enable
 client.focused_inactive 000000 440C88 000000 440C88
 client.unfocused 000000 440C88 000000 440C88
 for_window [app_id=\"foot\"] opacity 0.8
-workspace 1 output DP-1
-workspace 2 output DP-4
-workspace 3 output HDMI-A-1
 "

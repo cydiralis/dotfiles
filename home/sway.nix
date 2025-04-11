@@ -21,6 +21,19 @@
           pos = "1440 1080";
         };
       };
+      workspaceOutputAssign = (if vars.isLaptop then
+        # For Laptop: assign workspace 1 to eDP-1
+        [
+          { workspace = "1"; output = "eDP-1"; }
+        ]
+      else
+        # For Desktop: assign workspaces to different outputs
+        [
+          { workspace = "1"; output = "DP-1"; }
+          { workspace = "2"; output = "DP-4"; }
+          { workspace = "3"; output = "HDMI-A-1"; }
+        ]
+      );
       gaps = {
         inner = 5;
         outer = 7;
@@ -35,7 +48,8 @@
            map_to_output = "HDMI-A-1";
         };
         "type:keyboard" = {
-          xkb_layout = "gb";
+          xkb_layout = (if !vars.isLaptop then "gb" else "us");
+          xkb_variant = (if !vars.isLaptop then "" else "colemak");
         };
         "type:pointer" = {
           accel_profile = "flat";
