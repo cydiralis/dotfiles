@@ -39,6 +39,29 @@
 	}
       ];
     };
+    nixosConfigurations."Umbriel" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./base/Umbriel
+        home-manager.nixosModules.home-manager {
+          #imports = [ inputs.nix-index-database.hmModules.nix-index ];
+          home-manager.backupFileExtension = "hm-backup";
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            vars = {
+              isNixOS = true;
+              isDeck = false;
+              isTough = false;
+              class = "desktop";
+              user = "alyx"; #cursed way of setting username
+            };
+          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.alyx = ./home;
+        }
+      ];
+    };
     nixosConfigurations."Katara" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
