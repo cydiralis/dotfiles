@@ -49,7 +49,7 @@
         };
         "type:keyboard" = {
           xkb_layout = (if !vars.isLaptop then "gb" else "us");
-          xkb_variant = (if !vars.isLaptop then "" else "colemak");
+          xkb_variant = (if !vars.isLaptop then "''" else "colemak");
         };
         "type:pointer" = {
           accel_profile = "flat";
