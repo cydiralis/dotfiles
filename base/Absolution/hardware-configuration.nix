@@ -29,6 +29,11 @@
       fsType = "ntfs";
     };
 
+  fileSystems."/games" =
+    { device = "/dev/disk/by-uuid/1375e97d-e67b-43b7-827c-c1b984e0f42f";
+      fsType = "xfs";
+    };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

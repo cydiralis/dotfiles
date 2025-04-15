@@ -89,7 +89,7 @@
   boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
   boot.extraModprobeConfig = "options nvidia_drm fbdev=1";
   boot.loader.efi.efiSysMountPoint = "/boot/";
-  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init" "pcie_acs_override=downstream,multifunction" "preempt=voluntary"];
+  boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init" "pcie_acs_override=downstream,multifunction" "preempt=voluntary"];
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
   ];
@@ -97,6 +97,8 @@
   boot.kernel.sysctl = {
     "vm.max_map_count" = 2147483642;
   };
+
+  hardware.display.outputs."DP-4".mode = "2560x1080@75";
 
   boot.kernelPatches = [
     {
