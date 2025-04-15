@@ -98,6 +98,13 @@
     "vm.max_map_count" = 2147483642;
   };
 
+  hardware.display.edid.modelines = {
+    "VG279QM" = "  967.60  1920 2096 2312 2704  1080 1081 1084 1278  -HSync +Vsync"
+  };
+
+  hardware.display.outputs."DP-1".edid = "VG279QM.bin";
+  hardware.display.outputs."DP-1".mode = "e";
+
   hardware.display.outputs."DP-4".mode = "2560x1080@75";
 
   boot.kernelPatches = [
