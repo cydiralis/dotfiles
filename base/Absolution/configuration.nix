@@ -86,7 +86,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+  boot.extraModprobeConfig = "options nvidia_drm fbdev=1";
   boot.loader.efi.efiSysMountPoint = "/boot/";
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init" "pcie_acs_override=downstream,multifunction" "preempt=voluntary"];
   boot.extraModulePackages = [
