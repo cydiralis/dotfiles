@@ -1,7 +1,7 @@
 {lib, osConfig, pkgs, inputs, vars, ...}:{
   wayland.windowManager.sway = {
     package = pkgs.swayfx;
-    enable = (!vars.isDeck);
+    enable = (vars.class != "handheld");
     checkConfig = false; #gles2 renderer error
     extraConfig = import ./swayfx;
     config = {
@@ -21,7 +21,7 @@
           pos = "1440 1080";
         };
       };
-      workspaceOutputAssign = (if vars.isLaptop then
+      workspaceOutputAssign = (if vars.class == "laptop" then
         # For Laptop: assign workspace 1 to eDP-1
         [
           { workspace = "1"; output = "eDP-1"; }
@@ -48,8 +48,8 @@
            map_to_output = "HDMI-A-1";
         };
         "type:keyboard" = {
-          xkb_layout = (if !vars.isLaptop then "gb" else "us");
-          xkb_variant = (if !vars.isLaptop then "''" else "colemak");
+          xkb_layout = (if vars.class != "laptop" then "gb" else "us");
+          xkb_variant = (if vars.class != "laptop" then "''" else "colemak");
         };
         "type:pointer" = {
           accel_profile = "flat";

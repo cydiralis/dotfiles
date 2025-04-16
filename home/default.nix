@@ -48,7 +48,7 @@
   services.arrpc.enable = true;
 
   programs.waybar = {
-    enable = (!vars.isDeck);
+    enable = (vars.class != "handheld");
   };
   programs.git = {
     enable = true;
@@ -85,10 +85,10 @@
   '';
 
   xdg.portal = {
-    enable = (!vars.isDeck);
-    extraPortals = (if !vars.isDeck then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
-    configPackages = (if !vars.isDeck then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
-    config.common.default = (if !vars.isDeck then "*" else "");
+    enable = (vars.class != "handheld");
+    extraPortals = (if vars.class != "handheld" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+    configPackages = (if vars.class != "handheld" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+    config.common.default = (if vars.class != "handheld" then "*" else "");
   };
 
   programs.obs-studio = {

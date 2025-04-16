@@ -27,9 +27,7 @@
 	    inherit inputs;
 	    vars = {
 	      isNixOS = true;
-              isDeck = false;
               isTough = false;
-              isLaptop = false;
 	      class = "desktop";
               user = "alyx"; #cursed way of setting username
 	    };
@@ -51,10 +49,8 @@
             inherit inputs;
             vars = {
               isNixOS = true;
-              isDeck = false;
               isTough = false;
-              isLaptop = true;
-              class = "desktop";
+              class = "laptop";
               user = "alyx"; #cursed way of setting username
             };
           };
@@ -75,10 +71,8 @@
             inherit inputs;
             vars = {
               isNixOS = true;
-              isDeck = false;
               isTough = true;
-              isLaptop = true;
-              class = "desktop";
+              class = "laptop";
               user = "alyx"; #cursed way of setting username
             };
           };
@@ -101,10 +95,8 @@
             inherit inputs;
             vars = {
               isNixOS = true;
-              isDeck = true;
               isTough = false;
-              isLaptop = true;
-              class = "desktop";
+              class = "handheld";
               user = "alyx"; #cursed way of setting username
             };
           };
