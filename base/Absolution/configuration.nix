@@ -17,6 +17,8 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="07ca", ATTRS{idProduct}=="4710", MODE="0666"
   '';
 
+  hardware.wooting.enable = true;
+
   programs = {
     adb.enable = true;
     firefox.enable = true;
@@ -285,7 +287,7 @@
   users.users.alyx = {
     isNormalUser = true;
     description = "Alyx";
-    extraGroups = [ "gamemode" "networkmanager" "wheel" "libvirtd" "camera" "qemu-libvirtd" "lxd" ];
+    extraGroups = [ "gamemode" "inputs" "networkmanager" "wheel" "libvirtd" "camera" "qemu-libvirtd" "lxd" ];
     packages = with pkgs; [
     ];
   };
