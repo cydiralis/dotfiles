@@ -323,6 +323,7 @@
     r2modman
     index_camera_passthrough
     wayvr-dashboard
+    wlx-overlay-s
     r2mod_cli
     gamemode
     git
