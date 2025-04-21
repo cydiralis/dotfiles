@@ -88,8 +88,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
-  boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
-  boot.extraModprobeConfig = "options nvidia_drm fbdev=1";
   boot.loader.efi.efiSysMountPoint = "/boot/";
   boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init" "pcie_acs_override=downstream,multifunction" "preempt=voluntary"];
   boot.extraModulePackages = [
@@ -101,26 +99,6 @@
   };
 
   hardware.display.outputs."DP-4".mode = "2560x1080@75";
-
-  boot.kernelPatches = [
-    {
-      name = "amdgpu-ignore-ctx-privileges";
-      patch = pkgs.fetchpatch {
-        name = "cap_sys_nice_begone.patch";
-        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
-        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
-      };
-    }
-     #{
-     #  name = "add-acs-overrides";
-     #  patch = pkgs.fetchurl {
-     #    name = "add-acs-overrides.patch";
-     #    url = "https://raw.githubusercontent.com/some-natalie/fedora-acs-override/main/acs/add-acs-override.patch";
-     #    sha256 = "f7d5c0236b2ef5465817c094aef4295867c87b1b3cb4e41c53e24b79b2bd22f6";
-     #  };
-     #}
-  ];
-
 
   programs.virt-manager.enable = true;
   systemd.packages = with pkgs; [lact];
@@ -137,8 +115,15 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [amdvlk mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
-    extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa.opencl];
+    extraPackages = with pkgs; [libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
+  };
+
+  hardware.amdgpu = {
+    opencl.enable = true;
+    initrd.enable = true;
+    amdvlk.supportExperimental.enable = true;
+    amdvlk.support32Bit.enable = true;
+    amdvlk.enable = true;
   };
 
   hardware.bluetooth.enable = true;

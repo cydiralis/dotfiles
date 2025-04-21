@@ -78,6 +78,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
   boot.loader.efi.efiSysMountPoint = "/boot/";
+  boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+  boot.extraModprobeConfig = "options nvidia_drm fbdev=1";
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
   ];
