@@ -26,13 +26,13 @@
     #settings.colors.alpha = "0.8";
   };
   programs.ncmpcpp = {
-    enable = true;
+    enable = (vars.class != "handheld");
     settings = {
       tags_separator = ";";
     };
   };
   services.mpd = {
-    enable = true;
+    enable = (vars.class != "handheld");
     musicDirectory = "/home/${vars.user}/Music";
     extraConfig = ''
       audio_output {
@@ -42,7 +42,7 @@
     '';
   };
   services.mpd-mpris = {
-    enable = true;
+    enable = (vars.class != "handheld");
   };
 
   services.arrpc.enable = true;

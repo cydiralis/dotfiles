@@ -18,8 +18,8 @@
   jovian.steam.enable = true;
   jovian.steam.user = "alyx";
   jovian.steam.desktopSession = "plasma";
-#  jovian.decky-loader.enable = true;
-#  jovian.devices.steamdeck.autoUpdate = true;
+  jovian.decky-loader.enable = true;
+  jovian.devices.steamdeck.autoUpdate = true;
 
 
   programs = {
@@ -87,8 +87,15 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-#    extraPackages = with pkgs; [mesa.opencl libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
-#    extraPackages32 = with pkgs; [driversi686Linux.amdvlk driversi686Linux.mesa.opencl];
+    extraPackages = with pkgs; [libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
+  };
+
+  hardware.amdgpu = {
+    opencl.enable = true;
+    initrd.enable = true;
+    amdvlk.supportExperimental.enable = true;
+    amdvlk.support32Bit.enable = true;
+    amdvlk.enable = true;
   };
 
   hardware.bluetooth.enable = true;
@@ -126,23 +133,6 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
-
-#  systemd = {
-#    user.services.polkit-gnome-authentication-agent-1 = {
-#      description = "polkit-gnome-authentication-agent-1";
-#      wantedBy = [ "graphical-session.target" ];
-#      wants = [ "graphical-session.target" ];
-#      after = [ "graphical-session.target" ];
-#      serviceConfig = {
-#          Type = "simple";
-#          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-#          Restart = "on-failure";
-#          RestartSec = 1;
-#          TimeoutStopSec = 10;
-#        };
-#    };
-#  };
-
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
