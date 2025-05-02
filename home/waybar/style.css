@@ -6,6 +6,7 @@
   		#082100 15px
 	);
         font-family: "Iosevka NF";
+        
         color: #2db300;
         border: 2px solid #2aff36;
         border-radius: 11px;
@@ -22,13 +23,16 @@
 #poweroptions
 {
 	border: 2px solid #2aff36;
-	margin: 3px;
+	/*margin: 3px;*/
 	min-height: 0;
-	margin-left: 5px;
-        margin-right: 5px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding: 6px;
+
+	margin-left: 4px;
+        margin-right: 4px;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        padding: 2px;
+        padding-left: 5px;
+        padding-right: 5px;
 	border-radius: 4px;
 }
 
@@ -45,7 +49,7 @@
 
 #poweroptions {
         margin-right: 10px;
-        padding-left: 9px;
+        padding-left: 8px;
 }
 
 #workspaces {
