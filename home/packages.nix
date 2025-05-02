@@ -22,6 +22,7 @@
     timidity
     transmission_4-qt
     vesktop
+    ripcord
     vlc
     playerctl
     firefox
