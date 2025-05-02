@@ -17,13 +17,13 @@
 "battery": {
    "interval": 5,
    "format-icons": [" ", " ", " ", " ", " "],
+   "format": "{icon} {capacity}%",
+   "tooltip-format": "BAT0, {power}W",
    "states": {
-      "warning": 26,
+      "warning": 30,
       "critical": 15,
       "dead": 5
    },
-   "format": "{icon} {capacity}%",
-   "tooltip-format": "BAT0, {power}W",
 },
 
 "group/mpdcontrols": {

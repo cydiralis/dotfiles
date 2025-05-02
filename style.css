@@ -42,25 +42,14 @@
 	border: 0.2em solid #2aff36;
 }
 
-#battery.warning {
-        background: repeating-linear-gradient(
-        0.25turn,
-        #7b7537 20px,
-        #a18f48 30px,
-        #7b7537 40px
-        );
-        color: #cfceb4
-}
 
-#battery.critical,
-#battery.dead {
-        background: repeating-linear-gradient(
-        0.25turn,
-        #7b3737 20px,
-        #a14848 30px,
-        #7b3737 40px
-        );
-        color: #cfb4b4
+#battery.warning {
+	background: repeating-linear-gradient(
+  	0.25turn,
+  	#7b7537 20px,
+  	#a18f48 30px,
+  	#7b7537 40px
+	);
 }
 
 #battery.charging {
@@ -70,7 +59,16 @@
   	#4899a1 30px,
   	#37757b 40px
 	);
-	color: #b4cccf
+}
+
+#battery.critical,
+#battery.dead {
+	background: repeating-linear-gradient(
+  	0.25turn,
+  	#7b3737 20px,
+  	#a14848 30px,
+  	#7b3737 40px
+	);
 }
 
 #mpd.playing {

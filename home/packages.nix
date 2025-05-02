@@ -10,6 +10,7 @@
     comma
     osu-lazer-bin
     gzdoom
+    wttrbar
     openrct2
     inkscape
     hyfetch
