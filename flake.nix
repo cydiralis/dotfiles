@@ -8,15 +8,17 @@
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.url = "github:hyprwm/Hyprland";
     catppuccin.url = "github:catppuccin/nix";
     nixvim.url = "github:nix-community/nixvim";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, home-manager, jovian, ...}:{
+  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, home-manager, jovian, hyprland, ...}:{
     nixosConfigurations."Absolution" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./base/Absolution
         nixpkgs-xr.nixosModules.nixpkgs-xr

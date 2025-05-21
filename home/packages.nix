@@ -26,6 +26,7 @@
     vlc
     playerctl
     firefox
+    librewolf
     v4l-utils
   ] ++ (if vars.class != "handheld" then [gamescope libgpod bs-manager libimobiledevice strawberry openscad openutau wlr-randr grim slurp grimblast swaynotificationcenter udiskie gtklock swaybg fzf wl-clipboard brightnessctl nemo xfce.ristretto xfce.tumbler] else []);
 }

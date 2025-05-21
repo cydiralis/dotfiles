@@ -2,7 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }: let
+   pkgs-unstable = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+in
 
 {
   imports =
@@ -12,14 +14,17 @@
 
   nix.package = pkgs.lix;  
 
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="07ca", ATTRS{idProduct}=="0551", MODE="0666"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="07ca", ATTRS{idProduct}=="4710", MODE="0666"
-  '';
+  services.udev.extraRules = builtins.readFile ./udev.rules;
 
   hardware.wooting.enable = true;
 
   programs = {
+    hyprlock.enable = true;
+    hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    };
     adb.enable = true;
     firefox.enable = true;
     fish.enable = true;
@@ -69,20 +74,39 @@
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
+    openFirewall = true;
+    interfaceName = "userspace-networking";
   };
 
-  xdg.portal.config.common.default = "*";
-  xdg.portal.wlr = {
+  networking.firewall.checkReversePath = "loose";
+  services.resolved.enable = true;
+  networking.useNetworkd = true;
+  networking.interfaces.enp0s31f6.useDHCP = true;
+  networking.useDHCP = false;
+
+  services.networkd-dispatcher = {
     enable = true;
-    settings = {
-      screencast = {
-        chooser_type = "simple";
-        chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
-        exec_before = "${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} --dnd-on --skip-wait";
-        exec_after = "${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} --dnd-off --skip-wait";
-      };
+    rules."50-tailscale" = {
+      onState = ["routable"];
+      script = ''
+        "${pkgs.ethtool} NETDEV=$(ip -o route get 8.8.8.8 | cut -f 5 -d " ") | -K enp0s31f6 rx-udp-gro-forwarding on rx-gro-list off"
+      '';
     };
   };
+
+
+  #xdg.portal.config.common.default = "*";
+  #xdg.portal.wlr = {
+  #  enable = true;
+  #  settings = {
+  #    screencast = {
+  #      chooser_type = "simple";
+  #      chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
+  #      exec_before = "${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} --dnd-on --skip-wait";
+  #      exec_after = "${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} --dnd-off --skip-wait";
+  #    };
+  #  };
+  #};
   
   boot.supportedFilesystems = ["exfat" "ntfs" "xfs"];
   boot.loader.systemd-boot.enable = true;
@@ -92,6 +116,7 @@
   boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff" "amdgpu.seamless=1" "amdgpu.freesync_video=1" "initcall_blacklist=simpledrm_platform_driver_init" "pcie_acs_override=downstream,multifunction" "preempt=voluntary"];
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
+    config.boot.kernelPackages.hid-t150.out
   ];
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
   boot.kernel.sysctl = {
@@ -114,6 +139,8 @@
   # Enable networking
   hardware.graphics = {
     enable = true;
+    package = pkgs-unstable.mesa;
+    package32 = pkgs-unstable.pkgsi686Linux.mesa;
     enable32Bit = true;
     extraPackages = with pkgs; [libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
   };
@@ -166,7 +193,7 @@
     enable = true;
     restart = true;
     settings.default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
       user = "greeter";
     };
   };
@@ -301,6 +328,9 @@
 
   environment.systemPackages = with pkgs; [
     wget
+    ethtool
+    networkd-dispatcher
+    oversteer
     neovim
     cbfstool
     steamtinkerlaunch
@@ -323,10 +353,6 @@
     wineWowPackages.stable
     (pkgs.python3.withPackages (ps: with ps; [tkinter]))
   ];
-
-  environment.sessionVariables = {
-    HYPRLAND_INSTANCE_SIGNATURE = "balls";
-  };
 
   system.stateVersion = "24.11"; # Did you read the comment?
 

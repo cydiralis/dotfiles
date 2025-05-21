@@ -8,6 +8,7 @@
     ./theming.nix
     ./nixvim
     ./sway.nix
+    ./hyprland.nix
     ./packages.nix #general user packages not managed by home-manager but i want to install via hm anyways
   ];
   home = rec {
@@ -17,6 +18,7 @@
     file = {
       ".config/waybar/config".source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/.config/nixos/home/waybar/config";
       ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/.config/nixos/home/waybar/style.css";
+#      ".config/hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/.config/nixos/home/locking/hyprlock.conf";
     };
   };
   programs.home-manager.enable = (!vars.isNixOS); #value is set in flake.nix
@@ -84,12 +86,12 @@
     }
   '';
 
-  xdg.portal = {
-    enable = (vars.class != "handheld");
-    extraPortals = (if vars.class != "handheld" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
-    configPackages = (if vars.class != "handheld" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
-    config.common.default = (if vars.class != "handheld" then "*" else "");
-  };
+  #xdg.portal = {
+  #  enable = (vars.class != "handheld" or vars.class == "lowpowered");
+  #  extraPortals = (if vars.class != "handheld" or vars.class == "lowpowered" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+  #  configPackages = (if vars.class != "handheld" or vars.class == "lowpowered" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+  #  config.common.default = (if vars.class != "handheld" or vars.class == "lowpowered" then "*" else "");
+  #};
 
   programs.obs-studio = {
     enable = true;

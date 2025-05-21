@@ -60,6 +60,8 @@
    "format-stopped": " Nothing Playing! ",
    "format": "   {title} - {album} - {artist} ",
    "format-paused": "  {title} - {album} - {artist} ",
+   "on-scroll-up": "mpc volume +5",
+   "on-scroll-down": "mpc volume -5",
 },
 
 "custom/trayadvisory": {
