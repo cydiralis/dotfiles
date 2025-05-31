@@ -17,6 +17,14 @@ in
   services.udev.extraRules = builtins.readFile ./udev.rules;
 
   hardware.wooting.enable = true;
+  hardware.openrazer.enable = true;
+
+  services.flatpak = {
+    enable = true;
+    packages = [
+      "org.vinegarhq.Sober"
+    ];
+  };
 
   programs = {
     hyprlock.enable = true;
@@ -26,7 +34,6 @@ in
       portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     };
     adb.enable = true;
-    firefox.enable = true;
     fish.enable = true;
     gamescope = {
       enable = true;
@@ -109,7 +116,12 @@ in
   #};
   
   boot.supportedFilesystems = ["exfat" "ntfs" "xfs"];
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.limine.enable = true;
+  boot.loader.limine.style.wallpapers = [];
+  boot.loader.limine.additionalFiles = {
+    "efi/memtest86.efi" = "${pkgs.memtest86-efi}/BOOTX64.efi";
+    "efi/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+  };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
   boot.loader.efi.efiSysMountPoint = "/boot/";
@@ -307,7 +319,7 @@ in
   users.users.alyx = {
     isNormalUser = true;
     description = "Alyx";
-    extraGroups = [ "gamemode" "inputs" "networkmanager" "wheel" "libvirtd" "camera" "qemu-libvirtd" "lxd" ];
+    extraGroups = [ "openrazer" "gamemode" "inputs" "networkmanager" "wheel" "libvirtd" "camera" "qemu-libvirtd" "lxd" ];
     packages = with pkgs; [
     ];
   };
@@ -336,12 +348,16 @@ in
 
   environment.systemPackages = with pkgs; [
     wget
+    jmtpfs
+    openrazer-daemon
+    polychromatic
     ethtool
     networkd-dispatcher
     oversteer
     neovim
     cbfstool
     steamtinkerlaunch
+    librewolf
     vulkan-tools
     r2modman
     index_camera_passthrough

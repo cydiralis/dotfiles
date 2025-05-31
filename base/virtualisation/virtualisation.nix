@@ -20,7 +20,7 @@
         };
         vhostUserPackages = [ pkgs.virtiofsd ];
         swtpm.enable = true;
-        runAsRoot = false;
+        runAsRoot = true;
       };
       clearEmulationCapabilities = false;
       deviceACL = [

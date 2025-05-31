@@ -9,7 +9,6 @@
     "dbus-update-activation-environment --systemd DISPLAY WAYLAND-DISPLAY"
     "bash ~/.config/lockonsleep/config.sh"
     "waybar"
-    "swayidle -w \ before-sleep 'hyprlock'"
   ];
 
   monitor = [
@@ -36,9 +35,17 @@
     accel_profile = "flat";
   };
 
-  device = {
-    name = "at-translated-set-2-keyboard";
-  };
+  device = [
+    {
+      name = "at-translated-set-2-keyboard";
+      kb_layout = "gb";
+      kb_variant = "colemak";
+    }
+    {
+      name = "obins-anne-pro-2-c18-(qmk)";
+      kb_layout = "us";
+    }
+  ];
 
   general = {
     gaps_in = 5;
@@ -122,8 +129,9 @@
     "$mod, E, exec, nemo"
     "$mod, ;, pseudo,"
     "$mod, N, togglesplit,"
+    "$mod, L, exec, hyprlock"
     "$mod SHIFT, E, exec, hyprctl dispatch exit"
-    ", Print ,exec, grimblast copy area"
+    ", Print ,exec, XDG_SCREENSHOTS_DIR=$HOME/Pictures/screenshots grimblast copysave area"
     "$mod, left, movewindow, l"
     "$mod, right, movewindow, r"
     "$mod, up, movewindow, up"
