@@ -47,7 +47,7 @@
     enable = (vars.class != "handheld");
   };
 
-  services.arrpc.enable = true;
+  services.mpd-discord-rpc.enable = true;
 
   programs.waybar = {
     enable = (vars.class != "handheld");
@@ -85,6 +85,24 @@
       "version" : 1
     }
   '';
+
+  programs.irssi = {
+    enable = true;
+    networks = {
+      classicconnect = {
+        nick = "alyx";
+        server = {
+          address = "irc.classicconnect.net";
+          port = 6677;
+          autoConnect = true;
+          ssl.enable = false;
+        };
+        channels = {
+          nick.autoJoin = true;
+        };
+      };
+    };
+  };
 
   #xdg.portal = {
   #  enable = (vars.class != "handheld" or vars.class == "lowpowered");

@@ -5,7 +5,7 @@
   wayland.windowManager.hyprland.settings = {
 
   exec-once = [
-    "swaybg -m fill -i ~/.config/nixos/assets/FATEINVERSION.png"
+    "swaybg -m fill -i ~/.config/nixos/assets/scenes.jpg"
     "dbus-update-activation-environment --systemd DISPLAY WAYLAND-DISPLAY"
     "bash ~/.config/lockonsleep/config.sh"
     "waybar"
