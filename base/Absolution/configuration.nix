@@ -15,9 +15,13 @@ in
   nix.package = pkgs.lix;  
 
   services.udev.extraRules = builtins.readFile ./udev.rules;
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   hardware.wooting.enable = true;
   hardware.openrazer.enable = true;
+
+  security.sudo.package = pkgs.sudo.override { withInsults = true; };
 
   services.flatpak = {
     enable = true;
@@ -28,11 +32,15 @@ in
 
   programs = {
     hyprlock.enable = true;
-    hyprland = {
+    niri = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
     };
+    #hyprland = {
+     # enable = true;
+      #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+     # portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    #};
     adb.enable = true;
     fish.enable = true;
     gamescope = {
@@ -101,6 +109,7 @@ in
     };
   };
 
+  xdg.portal.enable = true;
 
   #xdg.portal.config.common.default = "*";
   #xdg.portal.wlr = {
@@ -151,18 +160,7 @@ in
   # Enable networking
   hardware.graphics = {
     enable = true;
-    package = pkgs-unstable.mesa;
-    package32 = pkgs-unstable.pkgsi686Linux.mesa;
     enable32Bit = true;
-    extraPackages = with pkgs; [libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
-  };
-
-  hardware.amdgpu = {
-    opencl.enable = true;
-    initrd.enable = true;
-    amdvlk.supportExperimental.enable = true;
-    amdvlk.support32Bit.enable = true;
-    amdvlk.enable = true;
   };
 
   hardware.bluetooth.enable = true;
@@ -205,7 +203,7 @@ in
     enable = true;
     restart = true;
     settings.default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember-session";
       user = "greeter";
     };
   };
@@ -220,21 +218,21 @@ in
     TTYVTDisallocate = "true";
   };
 
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
-    };
-  };
+ # systemd = {
+ #   user.services.polkit-gnome-authentication-agent-1 = {
+ #     description = "polkit-gnome-authentication-agent-1";
+ #     wantedBy = [ "graphical-session.target" ];
+ #     wants = [ "graphical-session.target" ];
+ #     after = [ "graphical-session.target" ];
+ #     serviceConfig = {
+ #         Type = "simple";
+ #         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+ #         Restart = "on-failure";
+ #         RestartSec = 1;
+ #         TimeoutStopSec = 10;
+ #       };
+ #   };
+ # };
 
 
   # Enable the X11 windowing system.
@@ -332,6 +330,7 @@ in
     "dotnet-sdk-7.0.410"
     "dotnet-sdk-6.0.428"
     "dotnet-runtime-7.0.20"
+    "olm-3.2.16"
   ];
 
   services.ananicy = { # https://github.com/NixOS/nixpkgs/issues/351516
@@ -346,9 +345,13 @@ in
     ];
   };
 
+  services.gvfs.enable = true;
+ 
   environment.systemPackages = with pkgs; [
     wget
     jmtpfs
+    nautilus
+    xwayland-satellite   
     openrazer-daemon
     polychromatic
     ethtool

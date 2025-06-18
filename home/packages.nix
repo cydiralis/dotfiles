@@ -11,6 +11,8 @@
     osu-lazer-bin
     grayjay
     gzdoom
+    matrix-commander-rs
+    iamb
     wttrbar
     openrct2
     inkscape

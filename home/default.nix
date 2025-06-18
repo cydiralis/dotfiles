@@ -4,11 +4,13 @@
     inputs.nix-index-database.hmModules.nix-index
     inputs.nixvim.homeManagerModules.default
     inputs.catppuccin.homeModules.catppuccin
+#    inputs.niri.homeModules.niri
     #aux files to make finding specific things easier
     ./theming.nix
     ./nixvim
-    ./sway.nix
-    ./hyprland.nix
+    #./sway.nix
+    #./hyprland.nix
+    ./niri.nix
     ./packages.nix #general user packages not managed by home-manager but i want to install via hm anyways
   ];
   home = rec {
@@ -25,7 +27,7 @@
   programs.foot = {
     enable = true;
     settings.main.font = "monospace:size=14";
-    #settings.colors.alpha = "0.8";
+    settings.colors.alpha = "0.9";
   };
   programs.ncmpcpp = {
     enable = (vars.class != "handheld");
@@ -95,7 +97,6 @@
           address = "irc.classicconnect.net";
           port = 6677;
           autoConnect = true;
-          ssl.enable = false;
         };
         channels = {
           nick.autoJoin = true;
@@ -104,12 +105,12 @@
     };
   };
 
-  #xdg.portal = {
-  #  enable = (vars.class != "handheld" or vars.class == "lowpowered");
-  #  extraPortals = (if vars.class != "handheld" or vars.class == "lowpowered" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
-  #  configPackages = (if vars.class != "handheld" or vars.class == "lowpowered" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
-  #  config.common.default = (if vars.class != "handheld" or vars.class == "lowpowered" then "*" else "");
-  #};
+ # xdg.portal = {
+ #   enable = (vars.class != "handheld");
+ #   extraPortals = (if vars.class != "handheld" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+ #   configPackages = (if vars.class != "handheld" then [ pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gtk ] else []);
+ #   config.common.default = (if vars.class != "handheld" then "*" else "");
+ # };
 
   programs.obs-studio = {
     enable = true;
