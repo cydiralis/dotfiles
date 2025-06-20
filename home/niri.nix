@@ -9,7 +9,7 @@
         "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+";
         "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-";
         "XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle";
-        "Mod+S".action = spawn "foot" "--title" "launch" "--app-id" "fzf-launcher-foot" "bash" "-c" "compgen -c | sort -u | fzf | xargs niri msg action spawn --";
+        "Mod+S".action = spawn "foot" "--title" "launch" "--app-id" "fzf-launcher-foot" "bash" "-c" "niri msg action spawn -- bash -c \"$(compgen -c | sort -u | fzf --bind=enter:replace-query+print-query) >/dev/null\"";
         "Mod+W".action = spawn "hyprlock";
         "Mod+T".action = spawn "foot" "--title" "music" "--app-id" "mpd-control-foot" "ncmpcpp";
         "Mod+Shift+Q" = {
@@ -44,7 +44,7 @@
         "Ctrl+Print".action = screenshot-window;
         "Mod+Shift+F".action = quit;
         "Mod+Shift+T".action = power-off-monitors;
-        "Mod+V".action = toggle-window-floating;
+        "Mod+Shift+Space".action = toggle-window-floating;
         "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
         "Mod+F".action = maximize-column;
         "Mod+Alt+F".action = fullscreen-window;

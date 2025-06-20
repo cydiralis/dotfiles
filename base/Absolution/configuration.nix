@@ -236,7 +236,7 @@ in
 
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver.enable = false;
   programs.dconf.enable = true;
 
   # Configure keymap in X11
