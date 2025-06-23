@@ -2,9 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, inputs, ... }: let
-   pkgs-unstable = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-in
+{ config, pkgs, lib, inputs, ... }: 
 
 {
   imports =
@@ -36,13 +34,7 @@ in
       enable = true;
       package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
     };
-    #hyprland = {
-     # enable = true;
-      #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-     # portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    #};
     adb.enable = true;
-    fish.enable = true;
     gamescope = {
       enable = true;
       capSysNice = false;
@@ -51,6 +43,7 @@ in
     };
     steam = {
       enable = true;
+      extest.enable = true;
       protontricks.enable = true;
       extraPackages = with pkgs; [
         xorg.libXcursor
@@ -70,6 +63,8 @@ in
       ] ++ config.fonts.packages;
       extraCompatPackages = with pkgs; [
         steamtinkerlaunch
+        proton-ge-rtsp-bin
+        proton-ge-bin
       ];
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
@@ -84,7 +79,7 @@ in
         SystemMaxUse=2G
   '';
 
-  hardware.steam-hardware.enable = true;
+  #hardware.steam-hardware.enable = true;
 
   services.tailscale = {
     enable = true;
@@ -110,19 +105,6 @@ in
   };
 
   xdg.portal.enable = true;
-
-  #xdg.portal.config.common.default = "*";
-  #xdg.portal.wlr = {
-  #  enable = true;
-  #  settings = {
-  #    screencast = {
-  #      chooser_type = "simple";
-  #      chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
-  #      exec_before = "${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} --dnd-on --skip-wait";
-  #      exec_after = "${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} --dnd-off --skip-wait";
-  #    };
-  #  };
-  #};
   
   boot.supportedFilesystems = ["exfat" "ntfs" "xfs"];
   boot.loader.limine.enable = true;
@@ -218,23 +200,6 @@ in
     TTYVTDisallocate = "true";
   };
 
- # systemd = {
- #   user.services.polkit-gnome-authentication-agent-1 = {
- #     description = "polkit-gnome-authentication-agent-1";
- #     wantedBy = [ "graphical-session.target" ];
- #     wants = [ "graphical-session.target" ];
- #     after = [ "graphical-session.target" ];
- #     serviceConfig = {
- #         Type = "simple";
- #         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
- #         Restart = "on-failure";
- #         RestartSec = 1;
- #         TimeoutStopSec = 10;
- #       };
- #   };
- # };
-
-
   # Enable the X11 windowing system.
   services.xserver.enable = false;
   programs.dconf.enable = true;
@@ -304,16 +269,6 @@ in
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   
-  programs.bash = {
-    interactiveShellInit = ''
-      if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
-      then
-        shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-        exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
-      fi
-    '';
-  };
-  
   users.users.alyx = {
     isNormalUser = true;
     description = "Alyx";
@@ -351,7 +306,7 @@ in
     wget
     jmtpfs
     nautilus
-    xwayland-satellite   
+    inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
     openrazer-daemon
     polychromatic
     ethtool

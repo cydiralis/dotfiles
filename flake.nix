@@ -9,15 +9,16 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
-    hyprland.url = "github:hyprwm/Hyprland";
     catppuccin.url = "github:catppuccin/nix";
     niri.url = "github:sodiboo/niri-flake";
+    xwayland-satellite.url = "github:Supreeeme/xwayland-satellite";
+    xwayland-satellite.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.url = "github:nix-community/nixvim";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, nix-flatpak, home-manager, jovian, hyprland, niri, ...}:{
+  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, nix-flatpak, home-manager, jovian, niri, xwayland-satellite, ...}:{
     nixosConfigurations."Absolution" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
