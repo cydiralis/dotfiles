@@ -18,7 +18,6 @@
   jovian.steam.enable = true;
   jovian.steam.user = "alyx";
   jovian.steam.desktopSession = "plasma";
-  jovian.decky-loader.enable = true;
   jovian.devices.steamdeck.autoUpdate = true;
 
 
