@@ -4,7 +4,7 @@
     inputs.nix-index-database.hmModules.nix-index
     inputs.nixvim.homeManagerModules.default
     inputs.catppuccin.homeModules.catppuccin
-#    inputs.niri.homeModules.niri
+    inputs.niri.homeModules.niri
     #aux files to make finding specific things easier
     ./theming.nix
     ./nixvim
@@ -66,27 +66,27 @@
     };
   };
 
-  xdg.configFile."openxr/1/active_runtime.json".source = "${pkgs.monado}/share/openxr/1/openxr_monado.json";
+#  xdg.configFile."openxr/1/active_runtime.json".source = "${pkgs.monado}/share/openxr/1/openxr_monado.json";
 
-  xdg.configFile."openvr/openvrpaths.vrpath".text = ''
-    {
-      "config" :
-      [
-        "${config.xdg.dataHome}/Steam/config"
-      ],
-      "external_drivers" : null,
-      "jsonid" : "vrpathreg",
-      "log" :
-      [
-        "${config.xdg.dataHome}/Steam/logs"
-      ],
-      "runtime" :
-      [
-        "${pkgs.opencomposite}/lib/opencomposite"
-      ],
-      "version" : 1
-    }
-  '';
+#  xdg.configFile."openvr/openvrpaths.vrpath".text = ''
+#    {
+#      "config" :
+#      [
+#        "${config.xdg.dataHome}/Steam/config"
+#      ],
+#      "external_drivers" : null,
+#      "jsonid" : "vrpathreg",
+#      "log" :
+#      [
+#        "${config.xdg.dataHome}/Steam/logs"
+#      ],
+#      "runtime" :
+#      [
+#        "${pkgs.opencomposite}/lib/opencomposite"
+#      ],
+#      "version" : 1
+#    }
+#  '';
 
   programs.irssi = {
     enable = true;

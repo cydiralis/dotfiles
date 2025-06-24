@@ -8,25 +8,21 @@
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     catppuccin.url = "github:catppuccin/nix";
     niri.url = "github:sodiboo/niri-flake";
-    xwayland-satellite.url = "github:Supreeeme/xwayland-satellite";
-    xwayland-satellite.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.url = "github:nix-community/nixvim";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, nix-flatpak, home-manager, jovian, niri, xwayland-satellite, ...}:{
+  outputs = inputs@{ self, nixpkgs, nixpkgs-xr, home-manager, jovian, niri, ...}:{
     nixosConfigurations."Absolution" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
         ./base/Absolution
-        niri.nixosModules.niri
+    #    niri.nixosModules.niri
         nixpkgs-xr.nixosModules.nixpkgs-xr
-        nix-flatpak.nixosModules.nix-flatpak
 	home-manager.nixosModules.home-manager {
 	  #imports = [ inputs.nix-index-database.hmModules.nix-index ];
           home-manager.backupFileExtension = "hm-backup";

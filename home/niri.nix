@@ -1,5 +1,16 @@
 {lib, osConfig, pkgs, inputs, vars, config, ...}:{
+  xdg.portal = {
+    enable = true;
+    config.niri = {
+      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    };
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-gtk
+    ];
+  };
   programs.niri = {
+    enable = true;
     settings = {
       input.touchpad = {
         accel-profile = "flat";
@@ -11,9 +22,11 @@
         accel-profile = "flat";
       };
       prefer-no-csd = true;
+      input.keyboard.xkb.layout = "gb";
       input.focus-follows-mouse.enable = true;
       binds = with config.lib.niri.actions; lib.mkDefault {
         "Mod+Return".action = spawn "foot";
+        "Mod+N".action = spawn "swaync-client" "-t";
         "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+";
         "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-";
         "XF86AudioMute".action = spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle";
@@ -252,13 +265,14 @@
       };
       spawn-at-startup = [
         {command = ["waybar"];}
-        #{command = ["xwayland-satellite"];}
+        {command = ["xwayland-satellite"];}
         {command = if !vars.isTough then ["swaybg" "-m" "fill" "-i" "/home/alyx/.config/nixos/assets/scenes.jpg"] else ["swaybg" "-m" "fill" "-i" "/home/alyx/.config/nixos/assets/scenes.jpg"];}
-	{command = ["udiskie --appindicator"];}
+	{command = ["udiskie" "--appindicator"];}
+        {command = [ "systemctl" "--user" "restart" "xdg-desktop-portal-gnome.service"];}
       ];
-      #environment = {
-      #  DISPLAY = ":0";
-      #};
+      environment = {
+        DISPLAY = ":0";
+      };
       window-rules = [
         {matches = [{title = "^launch$";}];
         open-floating = true;

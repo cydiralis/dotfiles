@@ -21,19 +21,11 @@
 
   security.sudo.package = pkgs.sudo.override { withInsults = true; };
 
-  services.flatpak = {
-    enable = true;
-    packages = [
-      "org.vinegarhq.Sober"
-    ];
-  };
-
   programs = {
-    hyprlock.enable = true;
-    niri = {
-      enable = true;
-      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
-    };
+#    niri = {
+#      enable = true;
+#      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
+#    };
     adb.enable = true;
     gamescope = {
       enable = true;
@@ -104,7 +96,7 @@
     };
   };
 
-  xdg.portal.enable = true;
+  #xdg.portal.enable = true;
   
   boot.supportedFilesystems = ["exfat" "ntfs" "xfs"];
   boot.loader.limine.enable = true;
@@ -303,10 +295,11 @@
   services.gvfs.enable = true;
  
   environment.systemPackages = with pkgs; [
+    hyprlock
     wget
     jmtpfs
     nautilus
-    inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite
+    inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.xwayland-satellite-stable
     openrazer-daemon
     polychromatic
     ethtool
