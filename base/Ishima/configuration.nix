@@ -11,14 +11,35 @@
     ];
 
   nix.package = pkgs.lix;  
-  
-  services.desktopManager.plasma6.enable = true;
-  jovian.devices.steamdeck.enable = true;
+
+        nix.buildMachines = [ {
+         hostName = "alyx@192.168.1.145";
+         system = "x86_64-linux";
+         protocol = "ssh-ng";
+         # if the builder supports building for multiple architectures, 
+         # replace the previous line by, e.g.
+         # systems = ["x86_64-linux" "aarch64-linux"];
+         maxJobs = 1;
+         speedFactor = 2;
+         supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" "x86_64-linux"];
+         mandatoryFeatures = [ ];
+        }] ;
+        nix.distributedBuilds = true;
+        # optional, useful when the builder has a faster internet connection than y>
+        nix.extraOptions = ''
+          builders-use-substitutes = true
+        '';
+
+
+  nix.settings.trusted-users = [ "alyx" "root" ];
+
+services.desktopManager.plasma6.enable = true;
+#  jovian.devices.steamdeck.enable = true;
   jovian.steam.autoStart = true;
   jovian.steam.enable = true;
   jovian.steam.user = "alyx";
   jovian.steam.desktopSession = "plasma";
-  jovian.devices.steamdeck.autoUpdate = true;
+ # jovian.devices.steamdeck.autoUpdate = true;
 
 
   programs = {
@@ -27,6 +48,7 @@
     fish.enable = true;
     steam = {
       enable = true;
+      extest.enable = true;
       protontricks.enable = true;
       extraPackages = with pkgs; [
         xorg.libXcursor
@@ -46,6 +68,8 @@
       ] ++ config.fonts.packages;
       extraCompatPackages = with pkgs; [
         steamtinkerlaunch
+        proton-ge-bin
+        proton-ge-rtsp-bin
       ];
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
@@ -83,19 +107,7 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [libvdpau-va-gl vaapiVdpau vulkan-validation-layers rocmPackages.clr.icd];
-  };
-
-  hardware.amdgpu = {
-    opencl.enable = true;
-    initrd.enable = true;
-    amdvlk.supportExperimental.enable = true;
-    amdvlk.support32Bit.enable = true;
-    amdvlk.enable = true;
-  };
+  
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
